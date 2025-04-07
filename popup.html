@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Chunk Master</title>
+    <link rel="stylesheet" href="popup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="popup-container">
+        <header class="popup-header">
+            <img src="images/icon48.png" alt="Icon" class="header-icon">
+            <h1>Course Chunk Master</h1>
+        </header>
+
+        <div id="loading-state">Loading video data...</div>
+        <div id="error-state" class="message error">Could not connect to YouTube page. Ensure you're on a video page and refresh.</div>
+        <div id="main-content" style="display: none;">
+
+            <section class="card current-video-section">
+                <h2>Current Video</h2>
+                <div id="current-video-info">
+                    <p id="current-video-title">No video detected</p>
+                    <div class="progress-area">
+                        <div class="progress-labels">
+                            <span>Progress: <strong id="progress-text">N/A</strong></span>
+                            <span id="completion-estimate-label">Est. Days: <strong id="completion-estimate">N/A</strong></span>
+                        </div>
+                        <progress id="progress-bar" value="0" max="100"></progress>
+                    </div>
+                    <div class="button-group">
+                         <button id="add-video-btn" class="button primary"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6z"></path></svg> Add to List</button>
+                         <button id="task-list-toggle" class="button secondary">Toggle Task List</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card video-list-section">
+                <h2>Video Watch List</h2>
+                <div id="video-list-container">
+                    <p id="video-list-empty">No videos added yet.</p>
+                    {/* <!-- Video items will be injected here --> */}
+                </div>
+            </section>
+
+            <section class="card settings-section">
+                <h2>Settings</h2>
+                 <div class="settings-grid">
+                    <div class="setting-item">
+                        <label for="chunk-size-input">Chunk Size (min):</label>
+                        <input type="number" id="chunk-size-input" min="1" max="120" value="5">
+                        <button id="apply-chunk-size-btn" class="button apply-btn">Apply</button>
+                         <small>Applies to new chunks on *this* video.</small>
+                    </div>
+                     <div class="setting-item">
+                         <label for="daily-goal-input">Daily Goal (min):</label>
+                         <input type="number" id="daily-goal-input" min="5" max="300" value="30">
+                         <button id="save-daily-goal-btn" class="button apply-btn">Save</button>
+                         <small>Used for completion estimates & reminders.</small>
+                     </div>
+                     <div class="setting-item full-width">
+                         <label for="enable-reminders-toggle">Enable Daily Reminders:</label>
+                         <input type="checkbox" id="enable-reminders-toggle">
+                         <input type="time" id="reminder-time-input" value="09:00">
+                         <button id="save-reminder-settings-btn" class="button apply-btn">Save Time</button>
+                     </div>
+                     <div class="setting-item full-width">
+                        <label for="dark-mode-toggle">Enable Dark Mode:</label>
+                        <input type="checkbox" id="dark-mode-toggle">
+                        <small>Changes the appearance of this popup.</small>
+                    </div>
+                </div>
+                <div id="status-message" class="message"></div>
+            </section>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+/* styles.css */
+
+:root {
+    --primary-color: #4285F4; /* Google Blue */
+    --success-color: #00C851; /* Vibrant Green */
+    --warning-color: #FFC107; /* Amber */
+    --danger-color: #FF4444; /* Vibrant Red */
+    --light-text: #ffffff;
+    --dark-text: #212121;
+    --bg-dark-1: rgba(28, 28, 28, 0.97); /* Slightly more opaque */
+    --bg-dark-2: rgba(40, 40, 40, 0.98);
+    --bg-light-1: rgba(255, 255, 255, 0.1);
+    --bg-light-2: rgba(255, 255, 255, 0.2);
+    --border-color-dark: rgba(255, 255, 255, 0.15);
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+  }
+  
+  /* --- Progress Bar Markers --- */
+  .ytp-chunk-marker {
+    position: absolute;
+    width: 8px; /* Smaller dot */
+    height: 8px;
+    background-color: var(--danger-color);
+    border-radius: 50%;
+    z-index: 100;
+    margin-left: -4px; /* Center the dot */
+    bottom: 50%; /* Vertically center */
+    transform: translateY(50%);
+    border: 1.5px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+    pointer-events: none; /* Don't interfere with seeking */
+  }
+  
+  .ytp-chunk-marker.completed {
+    background-color: var(--success-color);
+    transform: translateY(50%) scale(1.2); /* Slightly larger when completed */
+  }
+  
+  /* Adjust progress bar container slightly if needed */
+  .ytp-progress-bar-container {
+    height: 5px !important; /* Default YT height, markers sit on top */
+  }
+  
+  /* --- Task List Overlay --- */
+  #yt-task-overlay {
+    position: fixed;
+    right: 15px;
+    top: 75px; /* Adjusted for typical YT header */
+    width: 300px;
+    max-height: calc(100vh - 150px); /* Avoid overlap */
+    background-color: var(--bg-dark-1);
+    border-radius: var(--border-radius);
+    padding: 0; /* Padding handled by inner elements */
+    z-index: 9998; /* Below modals */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    color: var(--light-text);
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+    transform: translateX(0);
+    font-family: 'Roboto', Arial, sans-serif;
+  }
+  
+  #yt-task-overlay.hidden {
+    opacity: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+  }
+  
+  .yt-task-overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color-dark);
+  }
+  
+  .yt-task-overlay-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .yt-task-overlay-close-btn {
+    background: none;
+    border: none;
+    color: var(--light-text);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+    padding: 0 4px;
+    opacity: 0.7;
+    transition: opacity var(--transition-speed);
+  }
+  
+  .yt-task-overlay-close-btn:hover {
+    opacity: 1;
+  }
+  
+  #yt-task-list {
+    overflow-y: auto;
+    flex-grow: 1; /* Take available space */
+    padding: 8px 16px; /* Padding for items */
+  }
+  
+  /* Task List Scrollbar */
+  #yt-task-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  #yt-task-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  #yt-task-list::-webkit-scrollbar-thumb {
+    background: var(--bg-light-2);
+    border-radius: 3px;
+  }
+  #yt-task-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+  
+  .yt-task-item {
+    padding: 10px 12px;
+    margin: 6px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, border-left-color var(--transition-speed) ease, transform 0.1s ease;
+    background-color: var(--bg-light-1);
+    border-left: 4px solid transparent;
+    font-size: 14px;
+  }
+  
+  .yt-task-item:hover {
+    background-color: var(--bg-light-2) !important; /* Override others */
+    transform: scale(1.01);
+  }
+  .yt-task-item:active {
+      transform: scale(0.99);
+  }
+  
+  .yt-task-item.completed {
+    background-color: rgba(0, 200, 81, 0.1);
+    border-left-color: var(--success-color);
+    opacity: 0.8; /* Slightly faded */
+  }
+  
+  .yt-task-item.current {
+    background-color: rgba(255, 193, 7, 0.15);
+    border-left-color: var(--warning-color);
+    font-weight: 500;
+  }
+  
+  .task-item-title {
+      font-weight: 500;
+      margin-bottom: 4px;
+      display: block; /* Ensure block display */
+  }
+  
+  .task-item-time {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      display: block; /* Ensure block display */
+  }
+  
+  /* --- Modals --- */
+  .yt-course-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-dark-2);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    z-index: 10000;
+    width: 340px;
+    max-width: 90vw;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border-top: 4px solid var(--primary-color); /* Use border-top for accent */
+    color: var(--light-text);
+    animation: fadeInScale 0.3s ease-out;
+    font-family: 'Roboto', Arial, sans-serif;
+  }
+  
+  .yt-course-modal.success { border-top-color: var(--success-color); }
+  .yt-course-modal.warning { border-top-color: var(--warning-color); }
+  .yt-course-modal.danger { border-top-color: var(--danger-color); }
+  
+  @keyframes fadeInScale {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+  
+  .yt-course-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--light-text);
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 5px;
+    opacity: 0.7;
+    transition: opacity var(--transition-speed);
+  }
+  .yt-course-modal-close:hover {
+      opacity: 1;
+  }
+  
+  .modal-title {
+    margin: 0 0 16px 0;
+    color: var(--light-text);
+    font-size: 18px;
+    font-weight: 500;
+    padding-right: 30px; /* Space for close button */
+  }
+  
+  .modal-message {
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 24px 0;
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+  }
+  
+  .modal-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color var(--transition-speed), transform 0.1s ease;
+    font-size: 14px;
+  }
+  .modal-btn:active {
+      transform: scale(0.97);
+  }
+  
+  .modal-btn.primary-btn { background-color: var(--primary-color); color: white; }
+  .modal-btn.success-btn { background-color: var(--success-color); color: white; }
+  .modal-btn.warning-btn { background-color: var(--warning-color); color: var(--dark-text); }
+  .modal-btn.danger-btn { background-color: var(--danger-color); color: white; }
+  .modal-btn.secondary-btn { background-color: rgba(255, 255, 255, 0.2); color: white; }
+  
+  .modal-btn.primary-btn:hover { background-color: #3367d6; }
+  .modal-btn.success-btn:hover { background-color: #00b04a; }
+  .modal-btn.warning-btn:hover { background-color: #ffb300; }
+  .modal-btn.danger-btn:hover { background-color: #e04040; }
+  .modal-btn.secondary-btn:hover { background-color: rgba(255, 255, 255, 0.3); }
+  
+  
+  /* Toggle Button in Player */
+  .ytp-tasklist-toggle-button {
+      /* Use YouTube's button class for basic styling */
+      /* Add specific styles if needed */
+      fill: white; /* Ensure SVG is white */
+  }
+  .ytp-tasklist-toggle-button:hover svg {
+      fill: #eee; /* Slight hover effect */
+  }
